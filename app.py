@@ -6,7 +6,10 @@ import pandas as pd
 import pickle
 
 # Load the trained model
-model = tf.keras.models.load_model('model.h5', compile=False)
+# Import the structural parser explicitly bypasses Keras 3 wrapper bugs
+from keras.src.legacy.saving import legacy_h5_format
+
+model = legacy_h5_format.load_model_from_hdf5('model.h5')
 
 # Load the encoders and scaler
 with open('label_encoder_gender.pkl', 'rb') as file:
